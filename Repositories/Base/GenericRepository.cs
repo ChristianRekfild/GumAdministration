@@ -2,7 +2,7 @@
 using GumAdministration.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace GumAdministration.Repository.Base;
+namespace GumAdministration.Repositories.Base;
 
 public class GenericRepository<T> : IGenericRepository<T> where T:class 
 {

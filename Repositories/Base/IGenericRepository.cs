@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace GumAdministration.Repository.Base;
+namespace GumAdministration.Repositories.Base;
 
 public interface IGenericRepository<T> where T : class
 {

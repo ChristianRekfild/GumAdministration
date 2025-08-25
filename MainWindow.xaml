@@ -15,7 +15,43 @@
     <Grid>
         <!-- Потом тут будет авторизация. Пока бюджета не хватило -->
         
-        
+        <DataGrid ItemsSource="{Binding FilteredClients}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <!-- Столбец "Имя" с поиском -->
+                <DataGridTemplateColumn Header="Имя">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBox 
+                                Text="{Binding DataContext.SearchFirstName, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                Width="120"
+                                TextChanged="{Binding Path=OnSearchTextChanged}"
+                            />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FirstName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- ~1~ Столбец "Фамилия" с поиском @1@ -->
+                <!-- <DataGridTemplateColumn Header="Фамилия"> -->
+                <!--     <DataGridTemplateColumn.HeaderTemplate> -->
+                <!--         <DataTemplate> -->
+                <!--             <TextBox Text="{Binding DataContext.SearchLastName, RelativeSource={RelativeSource AncestorType=DataGrid}}"  -->
+                <!--                      Width="120"  -->
+                <!--                      TextChanged="OnSearchTextChanged" /> -->
+                <!--         </DataTemplate> -->
+                <!--     </DataGridTemplateColumn.HeaderTemplate> -->
+                <!--     <DataGridTemplateColumn.CellTemplate> -->
+                <!--         <DataTemplate> -->
+                <!--             <TextBlock Text="{Binding LastName}" /> -->
+                <!--         </DataTemplate> -->
+                <!--     </DataGridTemplateColumn.CellTemplate> -->
+                <!-- </DataGridTemplateColumn> -->
+            </DataGrid.Columns>
+        </DataGrid>
         
     </Grid>
 </Window>

@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
 using GumAdministration.Model;
-using GumAdministration.Repository.Base;
+using GumAdministration.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace GumAdministration.Repository;
+namespace GumAdministration.Repositories;
 
 public sealed class ClientRepository : IGenericRepository<Client>
 {
