@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GumAdministration.Model;
 
-public class Context : DbContext
+public sealed class Context : DbContext
 {
     public DbSet<Client> Clients { get; set; }
     public DbSet<Visit> Visits { get; set; }
