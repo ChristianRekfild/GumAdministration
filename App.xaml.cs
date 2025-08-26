@@ -3,6 +3,7 @@ using System.Windows;
 using GumAdministration.Model;
 using GumAdministration.Repositories;
 using GumAdministration.Services;
+using GumAdministration.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,8 +43,13 @@ public partial class App : Application
         var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
         
-        MainWindow = new MainWindow();
-        MainWindow.Show();
+        ServiceProvider =  serviceCollection.BuildServiceProvider();
+        
+        var vm = ServiceProvider.GetRequiredService<MainWindowViewModel>();
+        int i = 0;
+        
+        var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        mainWindow.Show();
     }
 
     /// <summary>Настраиваем нужные сервисы</summary>
@@ -55,16 +61,12 @@ public partial class App : Application
         
         collection.AddSingleton<ClientRepository>();
         collection.AddSingleton<ClientService>();
+        
+        // Окна
+        collection.AddSingleton<MainWindow>();
+        // ViewModel
+        collection.AddSingleton<MainWindowViewModel>();
+
     }
 
-    private void SetConfigurationFromJson()
-    {
-        
-        
-        _configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .Build();    
-    }
-    
 }
