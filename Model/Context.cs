@@ -9,7 +9,7 @@ public sealed class Context : DbContext
     public DbSet<Visit> Visits { get; set; }
     public DbSet<Payment> Payments { get; set; }
 
-    public Context()
+    public Context(DbContextOptions<Context> options)  : base(options)
     {
         // Создание БД, если она не существует
         Database.EnsureCreated();
@@ -17,7 +17,6 @@ public sealed class Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "Gym.db");
-        optionsBuilder.UseSqlite($"Data Source={dbPath}");
+        // optionsBuilder.UseNpgsql();
     }
 }
