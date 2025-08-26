@@ -7,25 +7,33 @@
         xmlns:vm="clr-namespace:GumAdministration.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    
+
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Window.DataContext>
-    
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
         <!-- Потом тут будет авторизация. Пока бюджета не хватило -->
-        
-        <DataGrid ItemsSource="{Binding FilteredClients}" AutoGenerateColumns="False">
+
+        <DataGrid ItemsSource="{Binding FilteredClients}"
+                  AutoGenerateColumns="False" Grid.Row="0" Grid.RowSpan="4">
             <DataGrid.Columns>
                 <!-- Столбец "Имя" с поиском -->
                 <DataGridTemplateColumn Header="Имя">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBox 
+                            <TextBox
                                 Text="{Binding DataContext.SearchFirstName, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                 Width="120"
-                                TextChanged="{Binding Path=OnSearchTextChanged}"
-                            />
+                                TextChanged="{Binding Path=OnSearchTextChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -35,23 +43,71 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <!-- ~1~ Столбец "Фамилия" с поиском @1@ -->
-                <!-- <DataGridTemplateColumn Header="Фамилия"> -->
-                <!--     <DataGridTemplateColumn.HeaderTemplate> -->
-                <!--         <DataTemplate> -->
-                <!--             <TextBox Text="{Binding DataContext.SearchLastName, RelativeSource={RelativeSource AncestorType=DataGrid}}"  -->
-                <!--                      Width="120"  -->
-                <!--                      TextChanged="OnSearchTextChanged" /> -->
-                <!--         </DataTemplate> -->
-                <!--     </DataGridTemplateColumn.HeaderTemplate> -->
-                <!--     <DataGridTemplateColumn.CellTemplate> -->
-                <!--         <DataTemplate> -->
-                <!--             <TextBlock Text="{Binding LastName}" /> -->
-                <!--         </DataTemplate> -->
-                <!--     </DataGridTemplateColumn.CellTemplate> -->
-                <!-- </DataGridTemplateColumn> -->
+                <!-- Столбец "Фамилия" с поиском -->
+
+
+                <DataGridTemplateColumn Header="Фамилия">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBox
+                                Text="{Binding DataContext.SearchLastName, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                Width="120"
+                                TextChanged="{Binding Path=OnSearchTextChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding LastName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Отчество">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBox
+                                Text="{Binding DataContext.SearchLastName, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                Width="120"
+                                TextChanged="{Binding Path=OnSearchTextChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Patronymic}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
             </DataGrid.Columns>
         </DataGrid>
-        
+
+        <Grid Grid.Row="5" ShowGridLines="True">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                <CheckBox VerticalAlignment="Center" Margin="10,0"
+                          IsChecked="{Binding Path=ShowRequiringPayment}"/>
+                <TextBlock Text="Требуют оплаты" VerticalAlignment="Center"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                <CheckBox VerticalAlignment="Center" Margin="10,0"
+                          IsChecked="{Binding Path=ShowHidden}"/>
+                <TextBlock Text="Показать скрытых" VerticalAlignment="Center"/>
+            </StackPanel>
+            
+        </Grid>
+
+
     </Grid>
 </Window>

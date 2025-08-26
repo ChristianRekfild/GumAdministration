@@ -15,21 +15,21 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<Client> AllClients { get; set; }
     public ICollectionView FilteredClients { get; set; }
     private readonly ClientService _clientService;
-    
+
     public MainWindowViewModel(ClientService clientService)
     {
         _clientService = clientService;
         AllClients = new ObservableCollection<Client>(_clientService.GetAll().GetAwaiter().GetResult());
         FilteredClients = CollectionViewSource.GetDefaultView(AllClients);
         FilteredClients.Filter = FilterClients;
-        
+
         CloseApplicationCommand = new CloseApplicationCommand();
     }
 
+
+    #region Свойства
+
     private string _searchFirstName;
-    private string _searchLastName;
-    private string _searchPatronymic;
-    private string _searchEmail;
 
     /// <summary>Поиск по имени</summary>
     public string SearchFirstName
@@ -37,10 +37,12 @@ public class MainWindowViewModel : ViewModelBase
         get => _searchFirstName;
         set
         {
-            _searchFirstName = value;
+            Set(ref _searchFirstName, value);
             ApplyFilter();
         }
     }
+
+    private string _searchLastName;
 
     /// <summary>Поиск по фамилии</summary>
     public string SearchLastName
@@ -48,44 +50,70 @@ public class MainWindowViewModel : ViewModelBase
         get => _searchLastName;
         set
         {
-            _searchLastName = value;
+            Set(ref _searchLastName, value);
             ApplyFilter();
         }
     }
-    
+
+    private string _searchPatronymic;
+
     /// <summary>Поиск по отчеству</summary>
     public string SearchPatronymic
     {
         get => _searchPatronymic;
         set
         {
-            _searchPatronymic = value;
+            Set(ref _searchPatronymic, value);
             ApplyFilter();
         }
     }
 
+    private bool _showRequiringPayment;
+
+    /// <summary>Показать лиц, от которых требуется оплата</summary>
+    public bool ShowRequiringPayment
+    {
+        get => _showRequiringPayment;
+        set => Set(ref _showRequiringPayment, value);
+    }
+
+    private bool _showHidden;
+
+    /// <summary>Показать скрытых</summary>
+    public bool ShowHidden
+    {
+        get => _showHidden;
+        set => Set(ref _showHidden,  value);
+    }
+
+    #endregion
+
     #region Команды
-    
+
     public ICommand CloseApplicationCommand { get; }
 
     #endregion Команды
-    
+
     private bool FilterClients(object item)
     {
-        var client = item as Client;
-        return (string.IsNullOrEmpty(SearchFirstName) || client.FirstName.Contains(SearchFirstName, StringComparison.OrdinalIgnoreCase)) &&
-               (string.IsNullOrEmpty(SearchLastName) || client.LastName.Contains(SearchLastName, StringComparison.OrdinalIgnoreCase));
+        // var client = item as Client;
+        if (item is Client client)
+        return (string.IsNullOrEmpty(SearchFirstName) ||
+                client.FirstName.Contains(SearchFirstName, StringComparison.OrdinalIgnoreCase)) &&
+               (string.IsNullOrEmpty(SearchLastName) ||
+                client.LastName.Contains(SearchLastName, StringComparison.OrdinalIgnoreCase));
         // Добавьте условия для остальных полей...
+        
+        return false;
     }
 
     private void ApplyFilter()
     {
         FilteredClients.Refresh();
     }
-    
+
     private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
     {
         this.ApplyFilter();
     }
-
 }

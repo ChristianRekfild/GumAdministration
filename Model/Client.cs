@@ -37,6 +37,9 @@ public class Client
     /// <summary>Последняя оплаченная дата (в случае не персональных тренировок)</summary>
     public DateTime? LastPaidDate { get; set; }
 
-    /// <summary> Нужна оплата </summary>
+    /// <summary>Нужна оплата</summary>
     public bool PaymentRequired { get; set; }
+    
+    /// <summary>Скрыт ли пользователь (например, если давно не ходил)</summary>
+    public bool Hidden { get; set; }
 }
