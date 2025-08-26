@@ -30,7 +30,7 @@
                 <DataGridTemplateColumn Header="Имя">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding FirstName}" />
+                            <!-- <TextBlock Text="{Binding FirstName}" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -41,7 +41,7 @@
                 <DataGridTemplateColumn Header="Фамилия">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding LastName}" />
+                            <!-- <TextBlock Text="{Binding LastName}" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -49,7 +49,7 @@
                 <DataGridTemplateColumn Header="Отчество">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Patronymic}" />
+                            <!-- <TextBlock Text="{Binding Patronymic}" /> -->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
