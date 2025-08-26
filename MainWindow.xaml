@@ -28,14 +28,6 @@
             <DataGrid.Columns>
                 <!-- Столбец "Имя" с поиском -->
                 <DataGridTemplateColumn Header="Имя">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBox
-                                Text="{Binding DataContext.SearchFirstName, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                Width="120"
-                                TextChanged="{Binding Path=OnSearchTextChanged}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding FirstName}" />
@@ -47,14 +39,6 @@
 
 
                 <DataGridTemplateColumn Header="Фамилия">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBox
-                                Text="{Binding DataContext.SearchLastName, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                Width="120"
-                                TextChanged="{Binding Path=OnSearchTextChanged}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding LastName}" />
@@ -63,14 +47,6 @@
                 </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Отчество">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBox
-                                Text="{Binding DataContext.SearchLastName, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                Width="120"
-                                TextChanged="{Binding Path=OnSearchTextChanged}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Patronymic}" />
@@ -81,31 +57,38 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Grid.Row="5" ShowGridLines="True">
-            
+        <Grid Grid.Row="5" ShowGridLines="False">
+
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            
+
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
                 <CheckBox VerticalAlignment="Center" Margin="10,0"
-                          IsChecked="{Binding Path=ShowRequiringPayment}"/>
-                <TextBlock Text="Требуют оплаты" VerticalAlignment="Center"/>
+                          IsChecked="{Binding Path=ShowRequiringPayment}" />
+                <TextBlock Text="Требуют оплаты" VerticalAlignment="Center" />
             </StackPanel>
-            
+
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                 <CheckBox VerticalAlignment="Center" Margin="10,0"
-                          IsChecked="{Binding Path=ShowHidden}"/>
-                <TextBlock Text="Показать скрытых" VerticalAlignment="Center"/>
+                          IsChecked="{Binding Path=ShowHidden}" />
+                <TextBlock Text="Показать скрытых" VerticalAlignment="Center" />
             </StackPanel>
-            
+
+            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                   VerticalAlignment="Center" HorizontalContentAlignment="Center">
+                Фильтр
+            </Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
+                     Margin="10"/>
+
         </Grid>
 
 

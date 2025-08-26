@@ -29,41 +29,15 @@ public class MainWindowViewModel : ViewModelBase
 
     #region Свойства
 
-    private string _searchFirstName;
+    private string _searchString;
 
     /// <summary>Поиск по имени</summary>
-    public string SearchFirstName
+    public string SearchString
     {
-        get => _searchFirstName;
+        get => _searchString;
         set
         {
-            Set(ref _searchFirstName, value);
-            ApplyFilter();
-        }
-    }
-
-    private string _searchLastName;
-
-    /// <summary>Поиск по фамилии</summary>
-    public string SearchLastName
-    {
-        get => _searchLastName;
-        set
-        {
-            Set(ref _searchLastName, value);
-            ApplyFilter();
-        }
-    }
-
-    private string _searchPatronymic;
-
-    /// <summary>Поиск по отчеству</summary>
-    public string SearchPatronymic
-    {
-        get => _searchPatronymic;
-        set
-        {
-            Set(ref _searchPatronymic, value);
+            Set(ref _searchString, value);
             ApplyFilter();
         }
     }
@@ -96,12 +70,14 @@ public class MainWindowViewModel : ViewModelBase
 
     private bool FilterClients(object item)
     {
+        // Вроде как в этом случае мы просто возвращаем всё. Нужно потестить.
+        if (string.IsNullOrWhiteSpace(SearchString)) return true; 
+        
         // var client = item as Client;
         if (item is Client client)
-        return (string.IsNullOrEmpty(SearchFirstName) ||
-                client.FirstName.Contains(SearchFirstName, StringComparison.OrdinalIgnoreCase)) &&
-               (string.IsNullOrEmpty(SearchLastName) ||
-                client.LastName.Contains(SearchLastName, StringComparison.OrdinalIgnoreCase));
+        return (client.FirstName.Contains(SearchString, StringComparison.OrdinalIgnoreCase)) ||
+                client.LastName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
+                client.Patronymic.Contains(SearchString, StringComparison.OrdinalIgnoreCase);
         // Добавьте условия для остальных полей...
         
         return false;
