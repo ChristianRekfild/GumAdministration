@@ -82,7 +82,8 @@
                 Фильтр
             </Label>
             <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
-                     Margin="10"/>
+                     Margin="10"
+                     Text="{Binding Path=SearchString, UpdateSourceTrigger=PropertyChanged}"/>
             
             <TextBlock Grid.Row="0" Grid.Column="3"
                        HorizontalAlignment="Center" VerticalAlignment="Center"

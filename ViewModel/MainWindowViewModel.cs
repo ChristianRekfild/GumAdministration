@@ -97,7 +97,17 @@ public class MainWindowViewModel : ViewModelBase
 
     private void ApplyFilter()
     {
+        // Видимо тут мы просто переотображаем коллекцию
         FilteredClients.Refresh();
+        
+        if (!string.IsNullOrWhiteSpace(SearchString))
+            FilteredClients = CollectionViewSource.GetDefaultView(AllClients
+                .Where(x => x.FirstName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
+                            x.LastName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
+                            x.Patronymic.Contains(SearchString, StringComparison.OrdinalIgnoreCase)
+                            ));
+        
+        FilteredClients = CollectionViewSource.GetDefaultView(AllClients);
     }
 
     private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
