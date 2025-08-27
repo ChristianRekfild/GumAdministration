@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -20,12 +21,7 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel(ClientService clientService)
     {
         _clientService = clientService;
-        
-        // А вот так делать низя.... Наконец то у меня получилилось выстрелить себе в ногу этим! =)
-        // AllClients = new ObservableCollection<Client>(_clientService.GetAll().ConfigureAwait(false).GetAwaiter().GetResult());
-        
         AllClients = new ObservableCollection<Client>();
-        
         FilteredClients = CollectionViewSource.GetDefaultView(AllClients);
         FilteredClients.Filter = FilterClients;
 
@@ -65,9 +61,17 @@ public class MainWindowViewModel : ViewModelBase
     public bool ShowHidden
     {
         get => _showHidden;
-        set => Set(ref _showHidden,  value);
+        set => Set(ref _showHidden, value);
     }
 
+    private string _status = "Загрузка";
+    /// <summary>Статус работы программы</summary>
+    public string Status
+    {
+        get => _status;
+        set => Set(ref _status, value);
+    }
+    
     #endregion
 
     #region Команды
@@ -79,15 +83,15 @@ public class MainWindowViewModel : ViewModelBase
     private bool FilterClients(object item)
     {
         // Вроде как в этом случае мы просто возвращаем всё. Нужно потестить.
-        if (string.IsNullOrWhiteSpace(SearchString)) return true; 
-        
+        if (string.IsNullOrWhiteSpace(SearchString)) return true;
+
         // var client = item as Client;
         if (item is Client client)
-        return (client.FirstName.Contains(SearchString, StringComparison.OrdinalIgnoreCase)) ||
-                client.LastName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
-                client.Patronymic.Contains(SearchString, StringComparison.OrdinalIgnoreCase);
+            return (client.FirstName.Contains(SearchString, StringComparison.OrdinalIgnoreCase)) ||
+                   client.LastName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
+                   client.Patronymic.Contains(SearchString, StringComparison.OrdinalIgnoreCase);
         // Добавьте условия для остальных полей...
-        
+
         return false;
     }
 
@@ -100,7 +104,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         this.ApplyFilter();
     }
-    
+
     private async void LoadClientsAsync()
     {
         try
@@ -108,14 +112,13 @@ public class MainWindowViewModel : ViewModelBase
             var clients = await _clientService.GetAll();
             foreach (var c in clients)
                 AllClients.Add(c);
-
+            
             // FilteredClients.Refresh();
+            this.Status = "Ок";
         }
         catch (Exception ex)
         {
-            // Логирование
-            Debug.WriteLine($"Ошибка загрузки клиентов: {ex}");
+            MessageBox.Show("Error: " + ex.Message);
         }
     }
-    
 }

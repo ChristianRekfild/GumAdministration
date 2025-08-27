@@ -8,83 +8,87 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid>
-        <!-- <Grid.RowDefinitions> -->
-        <!--     <RowDefinition /> -->
-        <!--     <RowDefinition /> -->
-        <!--     <RowDefinition /> -->
-        <!--     <RowDefinition /> -->
-        <!--     <RowDefinition /> -->
-        <!-- </Grid.RowDefinitions> -->
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
         <!-- Потом тут будет авторизация. Пока бюджета не хватило -->
 
-        <!-- <DataGrid ItemsSource="{Binding FilteredClients}" -->
-        <!--           AutoGenerateColumns="False" Grid.Row="0" Grid.RowSpan="4"> -->
-        <!--     <DataGrid.Columns> -->
-        <!--         ~1~ Столбец "Имя" с поиском @1@ -->
-        <!--         <DataGridTemplateColumn Header="Имя"> -->
-        <!--             <DataGridTemplateColumn.CellTemplate> -->
-        <!--                 <DataTemplate> -->
-        <!--                     ~1~ <TextBlock Text="{Binding FirstName}" /> @1@ -->
-        <!--                 </DataTemplate> -->
-        <!--             </DataGridTemplateColumn.CellTemplate> -->
-        <!--         </DataGridTemplateColumn> -->
-        <!-- -->
-        <!--         ~1~ Столбец "Фамилия" с поиском @1@ -->
-        <!-- -->
-        <!-- -->
-        <!--         <DataGridTemplateColumn Header="Фамилия"> -->
-        <!--             <DataGridTemplateColumn.CellTemplate> -->
-        <!--                 <DataTemplate> -->
-        <!--                     ~1~ <TextBlock Text="{Binding LastName}" /> @1@ -->
-        <!--                 </DataTemplate> -->
-        <!--             </DataGridTemplateColumn.CellTemplate> -->
-        <!--         </DataGridTemplateColumn> -->
-        <!-- -->
-        <!--         <DataGridTemplateColumn Header="Отчество"> -->
-        <!--             <DataGridTemplateColumn.CellTemplate> -->
-        <!--                 <DataTemplate> -->
-        <!--                     ~1~ <TextBlock Text="{Binding Patronymic}" /> @1@ -->
-        <!--                 </DataTemplate> -->
-        <!--             </DataGridTemplateColumn.CellTemplate> -->
-        <!--         </DataGridTemplateColumn> -->
-        <!-- -->
-        <!--     </DataGrid.Columns> -->
-        <!-- </DataGrid> -->
-        <!-- -->
-        <!-- <Grid Grid.Row="4" ShowGridLines="False"> -->
-        <!-- -->
-        <!--     <Grid.RowDefinitions> -->
-        <!--         <RowDefinition /> -->
-        <!--         <RowDefinition /> -->
-        <!--     </Grid.RowDefinitions> -->
-        <!--     <Grid.ColumnDefinitions> -->
-        <!--         <ColumnDefinition /> -->
-        <!--         <ColumnDefinition /> -->
-        <!--         <ColumnDefinition /> -->
-        <!--         <ColumnDefinition /> -->
-        <!--     </Grid.ColumnDefinitions> -->
-        <!-- -->
-        <!--     <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal"> -->
-        <!--         <CheckBox VerticalAlignment="Center" Margin="10,0" -->
-        <!--                   IsChecked="{Binding Path=ShowRequiringPayment}" /> -->
-        <!--         <TextBlock Text="Требуют оплаты" VerticalAlignment="Center" Margin="0,10"/> -->
-        <!--     </StackPanel> -->
-        <!-- -->
-        <!--     <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal"> -->
-        <!--         <CheckBox VerticalAlignment="Center" Margin="10,0" -->
-        <!--                   IsChecked="{Binding Path=ShowHidden}" /> -->
-        <!--         <TextBlock Text="Показать скрытых" VerticalAlignment="Center" /> -->
-        <!--     </StackPanel> -->
-        <!-- -->
-        <!--     <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" -->
-        <!--            VerticalAlignment="Center" HorizontalContentAlignment="Center"> -->
-        <!--         Фильтр -->
-        <!--     </Label> -->
-        <!--     <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" -->
-        <!--              Margin="10"/> -->
-        <!-- -->
-        <!-- </Grid> -->
+        <DataGrid ItemsSource="{Binding FilteredClients}"
+                  AutoGenerateColumns="False" Grid.Row="0" Grid.RowSpan="4">
+            <DataGrid.Columns>
+                <!-- Столбец "Имя" с поиском -->
+                <DataGridTemplateColumn Header="Имя">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FirstName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+        
+                <!-- Столбец "Фамилия" с поиском -->
+        
+        
+                <DataGridTemplateColumn Header="Фамилия">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding LastName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+        
+                <DataGridTemplateColumn Header="Отчество">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Patronymic}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+        
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Grid Grid.Row="4" ShowGridLines="False">
+        
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+        
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                <CheckBox VerticalAlignment="Center" Margin="10,0"
+                          IsChecked="{Binding Path=ShowRequiringPayment}" />
+                <TextBlock Text="Требуют оплаты" VerticalAlignment="Center" Margin="0,10"/>
+            </StackPanel>
+        
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                <CheckBox VerticalAlignment="Center" Margin="10,0"
+                          IsChecked="{Binding Path=ShowHidden}" />
+                <TextBlock Text="Показать скрытых" VerticalAlignment="Center" />
+            </StackPanel>
+        
+            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                   VerticalAlignment="Center" HorizontalContentAlignment="Center">
+                Фильтр
+            </Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                     Margin="10"/>
+            
+            <TextBlock Grid.Row="0" Grid.Column="3"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Binding Path=Status}"/>
+            
+        </Grid>
 
 
     </Grid>
