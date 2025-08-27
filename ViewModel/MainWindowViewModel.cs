@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -19,11 +20,18 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel(ClientService clientService)
     {
         _clientService = clientService;
-        AllClients = new ObservableCollection<Client>(_clientService.GetAll().GetAwaiter().GetResult());
+        
+        // А вот так делать низя.... Наконец то у меня получилилось выстрелить себе в ногу этим! =)
+        // AllClients = new ObservableCollection<Client>(_clientService.GetAll().ConfigureAwait(false).GetAwaiter().GetResult());
+        
+        AllClients = new ObservableCollection<Client>();
+        
         FilteredClients = CollectionViewSource.GetDefaultView(AllClients);
         FilteredClients.Filter = FilterClients;
 
         CloseApplicationCommand = new CloseApplicationCommand();
+
+        LoadClientsAsync();
     }
 
 
@@ -92,4 +100,22 @@ public class MainWindowViewModel : ViewModelBase
     {
         this.ApplyFilter();
     }
+    
+    private async void LoadClientsAsync()
+    {
+        try
+        {
+            var clients = await _clientService.GetAll();
+            foreach (var c in clients)
+                AllClients.Add(c);
+
+            // FilteredClients.Refresh();
+        }
+        catch (Exception ex)
+        {
+            // Логирование
+            Debug.WriteLine($"Ошибка загрузки клиентов: {ex}");
+        }
+    }
+    
 }

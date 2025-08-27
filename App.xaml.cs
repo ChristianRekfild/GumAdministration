@@ -20,7 +20,7 @@ public partial class App : Application
         base.OnStartup(e);
 
         var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory()) // Устанавливаем базовый путь к текущему каталогу.
+            .SetBasePath(AppContext.BaseDirectory) // Устанавливаем базовый путь к текущему каталогу.
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true); // Добавляем JSON-файл.
         
         try
@@ -45,10 +45,11 @@ public partial class App : Application
         
         ServiceProvider =  serviceCollection.BuildServiceProvider();
         
-        var vm = ServiceProvider.GetRequiredService<MainWindowViewModel>();
-        int i = 0;
+        // var vm = ServiceProvider.GetRequiredService<MainWindowViewModel>();
+        // int i = 0;
         
         var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        Application.Current.MainWindow = mainWindow;
         mainWindow.Show();
     }
 
