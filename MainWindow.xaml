@@ -18,8 +18,18 @@
 
         <!-- Потом тут будет авторизация. Пока бюджета не хватило -->
 
-        <DataGrid ItemsSource="{Binding FilteredClients}"
-                  AutoGenerateColumns="False" Grid.Row="0" Grid.RowSpan="4">
+        <Menu VerticalAlignment="Top"
+              Height="200">
+            <MenuItem Header="Клиент">
+                <MenuItem Header="Добавить"/>
+                <MenuItem Header="Скрыть"/>
+                <MenuItem Header="Добавить оплату"/>
+            </MenuItem>
+        </Menu>
+        
+        <DataGrid AutoGenerateColumns="False" Grid.Row="0" Grid.RowSpan="4"
+                  ItemsSource="{Binding FilteredClients}"
+                  Margin="0,20,0,0">
             <DataGrid.Columns>
                 <!-- Столбец "Имя" с поиском -->
                 <DataGridTemplateColumn Header="Имя">
@@ -114,6 +124,10 @@
             <TextBlock Grid.Row="0" Grid.Column="3"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        Text="{Binding Path=Status}"/>
+            
+            <Button Grid.Row="0" Grid.Column="3"
+                    Margin="5"
+                    Content="Отметить перс. тренировку"/>
             
         </Grid>
 

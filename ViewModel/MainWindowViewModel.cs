@@ -33,6 +33,14 @@ public class MainWindowViewModel : ViewModelBase
 
     #region Свойства
 
+    private Client _selectedClient;
+    /// <summary>Выбранный клиент на DataGrid</summary>
+    public Client SelectedClient
+    {
+        get => _selectedClient;
+        set => _selectedClient = value;
+    }
+    
     private string _searchString;
 
     /// <summary>Поиск по имени</summary>
