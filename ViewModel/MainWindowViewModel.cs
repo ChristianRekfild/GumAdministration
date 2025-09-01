@@ -95,6 +95,7 @@ public class MainWindowViewModel : ViewModelBase
         return false;
     }
 
+    /// <summary>Применение фильтра</summary>
     private void ApplyFilter()
     {
         // Видимо тут мы просто переотображаем коллекцию

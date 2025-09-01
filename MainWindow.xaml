@@ -49,6 +49,17 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
         
+                <!-- In development -->
+                <DataGridTemplateColumn Header="Персональные">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!-- <TextBlock Text="{Binding IsPersonalTraining}" /> -->
+                            <CheckBox IsChecked="{Binding Path=IsPersonalTraining}"
+                                      IsEnabled="False"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
             </DataGrid.Columns>
         </DataGrid>
         
