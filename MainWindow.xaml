@@ -49,11 +49,28 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
         
-                <DataGridTemplateColumn Header="Персональные">
+                <DataGridTemplateColumn Header="Персоналка">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsPersonalTraining}"
                                       IsEnabled="False"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                
+                <DataGridTemplateColumn Header="Осталось перс. трен.">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=PersonalLessonsLeft}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Посл. опл. дата">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=LastPaidDate, StringFormat=dd.MM.yyyy}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

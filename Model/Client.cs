@@ -32,9 +32,9 @@ public class Client
     public bool IsPersonalTraining { get; set; }
 
     /// <summary>Сколько осталось персональных занятий</summary>
-    public int PersonalLessonsLeft { get; set; }
+    public int? PersonalLessonsLeft { get; set; }
 
-    /// <summary>Последняя оплаченная дата (в случае не персональных тренировок)</summary>
+    /// <summary>Последняя оплаченная дата занятий (в случае не персональных тренировок)</summary>
     public DateTime? LastPaidDate { get; set; }
 
     /// <summary>Нужна оплата</summary>
