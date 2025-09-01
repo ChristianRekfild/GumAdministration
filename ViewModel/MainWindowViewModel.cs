@@ -38,7 +38,7 @@ public class MainWindowViewModel : ViewModelBase
     public Client SelectedClient
     {
         get => _selectedClient;
-        set => _selectedClient = value;
+        set => Set(ref _selectedClient, value);
     }
     
     private string _searchString;

@@ -29,7 +29,9 @@
         
         <DataGrid AutoGenerateColumns="False" Grid.Row="0" Grid.RowSpan="4"
                   ItemsSource="{Binding FilteredClients}"
-                  Margin="0,20,0,0">
+                  SelectedItem="{Binding Path=SelectedClient}"
+                  Margin="0,20,0,0"
+                  CanUserAddRows="False">
             <DataGrid.Columns>
                 <!-- Столбец "Имя" с поиском -->
                 <DataGridTemplateColumn Header="Имя">
@@ -130,7 +132,6 @@
                     Content="Отметить перс. тренировку"/>
             
         </Grid>
-
-
+        
     </Grid>
 </Window>
