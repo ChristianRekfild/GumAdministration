@@ -23,7 +23,7 @@ internal class MarkPersonalTrainingCommand : CommandBase
             Visit visit = new Visit()
             {
                 Client = client,
-                Start = DateTime.Now
+                Start = DateTime.UtcNow
             };
             
             await _visitService.Add(visit);
