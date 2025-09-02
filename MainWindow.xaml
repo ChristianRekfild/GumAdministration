@@ -129,7 +129,10 @@
             
             <Button Grid.Row="0" Grid.Column="3"
                     Margin="5"
-                    Content="Отметить перс. тренировку"/>
+                    Content="Отметить перс. тренировку"
+                    Command="{Binding MarkPersonalTrainingCommand}"
+                    CommandParameter="{Binding SelectedClient}"
+                    />
             
         </Grid>
         

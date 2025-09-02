@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,16 +15,21 @@ public class MainWindowViewModel : ViewModelBase
 {
     public ObservableCollection<Client> AllClients { get; set; }
     public ICollectionView FilteredClients { get; set; }
-    private readonly ClientService _clientService;
 
-    public MainWindowViewModel(ClientService clientService)
+    private readonly ClientService _clientService;
+    private readonly VisitService _visitService;
+
+    public MainWindowViewModel(ClientService clientService, VisitService visitService)
     {
         _clientService = clientService;
+        _visitService = visitService;
+
         AllClients = new ObservableCollection<Client>();
         FilteredClients = CollectionViewSource.GetDefaultView(AllClients);
         FilteredClients.Filter = FilterClients;
 
         CloseApplicationCommand = new CloseApplicationCommand();
+        MarkPersonalTrainingCommand = new MarkPersonalTrainingCommand(_visitService);
 
         LoadClientsAsync();
     }
@@ -33,14 +37,15 @@ public class MainWindowViewModel : ViewModelBase
 
     #region Свойства
 
-    private Client _selectedClient;
+    private Client? _selectedClient;
+
     /// <summary>Выбранный клиент на DataGrid</summary>
-    public Client SelectedClient
+    public Client? SelectedClient
     {
         get => _selectedClient;
         set => Set(ref _selectedClient, value);
     }
-    
+
     private string _searchString;
 
     /// <summary>Поиск по имени</summary>
@@ -69,55 +74,54 @@ public class MainWindowViewModel : ViewModelBase
     public bool ShowHidden
     {
         get => _showHidden;
-        set => Set(ref _showHidden, value);
+        set
+        {
+            Set(ref _showHidden, value);
+            ApplyFilter();
+        }
     }
 
     private string _status = "Загрузка";
+
     /// <summary>Статус работы программы</summary>
     public string Status
     {
         get => _status;
-        set => Set(ref _status, value);
+        set
+        {
+            Set(ref _status, value);
+            ApplyFilter();
+        }
     }
-    
+
     #endregion
 
     #region Команды
 
     public ICommand CloseApplicationCommand { get; }
+    public ICommand MarkPersonalTrainingCommand { get; }
 
     #endregion Команды
 
     private bool FilterClients(object item)
     {
-        // Вроде как в этом случае мы просто возвращаем всё. Нужно потестить.
-        if (string.IsNullOrWhiteSpace(SearchString)) return true;
+        if (item is not Client client)
+            return false;
 
-        // var client = item as Client;
-        if (item is Client client)
-            return (client.FirstName.Contains(SearchString, StringComparison.OrdinalIgnoreCase)) ||
-                   client.LastName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
-                   client.Patronymic.Contains(SearchString, StringComparison.OrdinalIgnoreCase);
-        // Добавьте условия для остальных полей...
+        bool matchesSearch = string.IsNullOrWhiteSpace(SearchString) ||
+                             client.FirstName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
+                             client.LastName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
+                             client.Patronymic.Contains(SearchString, StringComparison.OrdinalIgnoreCase);
 
-        return false;
+        bool isVisible = ShowHidden || !client.Hidden;
+        
+        bool result = matchesSearch && isVisible;
+        return result;
     }
 
     /// <summary>Применение фильтра</summary>
     private void ApplyFilter()
-    {
-        // Видимо тут мы просто переотображаем коллекцию
-        FilteredClients.Refresh();
-        
-        if (!string.IsNullOrWhiteSpace(SearchString))
-            FilteredClients = CollectionViewSource.GetDefaultView(AllClients
-                .Where(x => x.FirstName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
-                            x.LastName.Contains(SearchString, StringComparison.OrdinalIgnoreCase) ||
-                            x.Patronymic.Contains(SearchString, StringComparison.OrdinalIgnoreCase)
-                            ));
-        
-        FilteredClients = CollectionViewSource.GetDefaultView(AllClients);
-    }
+        => FilteredClients.Refresh();
 
     private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
     {
@@ -131,7 +135,7 @@ public class MainWindowViewModel : ViewModelBase
             var clients = await _clientService.GetAll();
             foreach (var c in clients)
                 AllClients.Add(c);
-            
+
             // FilteredClients.Refresh();
             this.Status = "Ок";
         }

@@ -45,9 +45,6 @@ public partial class App : Application
         
         ServiceProvider =  serviceCollection.BuildServiceProvider();
         
-        // var vm = ServiceProvider.GetRequiredService<MainWindowViewModel>();
-        // int i = 0;
-        
         var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
         Application.Current.MainWindow = mainWindow;
         mainWindow.Show();
@@ -59,9 +56,19 @@ public partial class App : Application
         collection.AddSingleton(_configuration);
         var connString = _configuration.GetConnectionString("DefaultConnection");
         collection.AddDbContext<Context>(options => options.UseNpgsql(connString));
-        
+
+        #region Добавляем контейнеры
+
         collection.AddSingleton<ClientRepository>();
         collection.AddSingleton<ClientService>();
+        
+        collection.AddSingleton<PaymentRepository>();
+        collection.AddSingleton<PaymentService>();
+        
+        collection.AddSingleton<VisitRepository>();
+        collection.AddSingleton<VisitService>();
+
+        #endregion Добавляем контейнеры
         
         // Окна
         collection.AddSingleton<MainWindow>();

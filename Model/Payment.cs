@@ -8,6 +8,9 @@ public class Payment
     [Key]
     public long Id {  get; set; }
     
+    /// <summary>Id клиента, кто оплатил</summary>
+    public long ClientId {get; set; }
+    
     /// <summary>Дата создания</summary>
     public required DateTime CreatedAt { get; set; }
     
