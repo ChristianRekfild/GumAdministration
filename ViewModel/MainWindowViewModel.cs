@@ -65,7 +65,11 @@ public class MainWindowViewModel : ViewModelBase
     public bool ShowRequiringPayment
     {
         get => _showRequiringPayment;
-        set => Set(ref _showRequiringPayment, value);
+        set
+        {
+            Set(ref _showRequiringPayment, value);
+            ApplyFilter();
+        }
     }
 
     private bool _showHidden;
@@ -114,8 +118,9 @@ public class MainWindowViewModel : ViewModelBase
                              client.Patronymic.Contains(SearchString, StringComparison.OrdinalIgnoreCase);
 
         bool isVisible = ShowHidden || !client.Hidden;
-        
-        bool result = matchesSearch && isVisible;
+        bool isRequiredPayment = ShowRequiringPayment ? client.PaymentRequired : true;
+        bool result = matchesSearch && isVisible && isRequiredPayment;
+
         return result;
     }
 
