@@ -38,7 +38,6 @@ public class MainWindowViewModel : ViewModelBase
     #region Свойства
 
     private Client? _selectedClient;
-
     /// <summary>Выбранный клиент на DataGrid</summary>
     public Client? SelectedClient
     {
@@ -60,7 +59,6 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     private bool _showRequiringPayment;
-
     /// <summary>Показать лиц, от которых требуется оплата</summary>
     public bool ShowRequiringPayment
     {
@@ -73,7 +71,6 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     private bool _showHidden;
-
     /// <summary>Показать скрытых</summary>
     public bool ShowHidden
     {
@@ -86,7 +83,6 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     private string _status = "Загрузка";
-
     /// <summary>Статус работы программы</summary>
     public string Status
     {
