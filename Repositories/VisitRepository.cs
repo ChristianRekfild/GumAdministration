@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Windows.Controls;
 using GumAdministration.Model;
 using GumAdministration.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,11 @@ public class VisitRepository : IGenericRepository<Visit>
 
     public async Task<bool> Delete(Guid id)
     {
-        throw new NotImplementedException();
+        Visit?  visit = await this.Get(id);
+        if (visit is null) return false;
+
+        var result = _visits.Remove(visit);
+        return _context.SaveChanges() > 0;
     }
 
     public async Task<IEnumerable<Visit>> GetAll()
