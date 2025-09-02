@@ -17,9 +17,7 @@ public class PaymentRepository : IGenericRepository<Payment>
     }
     
     public async Task<Payment?> Get(Guid id)
-    {
-        throw new NotImplementedException();
-    }
+        => await _payments.FindAsync(id);
 
     public async Task<Payment> Add(Payment payment)
     {
@@ -31,13 +29,15 @@ public class PaymentRepository : IGenericRepository<Payment>
 
     public async Task<bool> Delete(Guid id)
     {
-        throw new NotImplementedException();
+        var payment = await this.Get(id);
+        if (payment is null) return false;
+        
+        _payments.Remove(payment);
+        return await _context.SaveChangesAsync() > 0;
     }
 
     public async Task<IEnumerable<Payment>> GetAll()
-    {
-        throw new NotImplementedException();
-    }
+        => await _context.Payments.ToListAsync();
 
     public async Task<bool> Save()
     {
@@ -46,13 +46,11 @@ public class PaymentRepository : IGenericRepository<Payment>
 
     public async Task<Payment?> SelectFirst(Expression<Func<Payment, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _context.Payments.FirstOrDefaultAsync(predicate);
     }
 
     public async Task<IQueryable<Payment>> GetIQueryableByExpression(Expression<Func<Payment, bool>> predicate)
-    {
-        throw new NotImplementedException();
-    }
+        => _payments.Where(predicate);
 
     public async Task<bool> Update(Payment entity)
     {

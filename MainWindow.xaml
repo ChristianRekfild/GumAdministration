@@ -41,10 +41,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-        
-                <!-- Столбец "Фамилия" с поиском -->
-        
-        
+                
                 <DataGridTemplateColumn Header="Фамилия">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
