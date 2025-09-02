@@ -9,23 +9,21 @@ public class VisitRepository : IGenericRepository<Visit>
 {
     private readonly Context _context;
     private readonly DbSet<Visit> _visits;
-    
+
     public VisitRepository(Context context)
     {
         _context = context;
         _visits = context.Set<Visit>();
     }
-    
+
     public async Task<Visit?> Get(Guid id)
-    {
-        throw new NotImplementedException();
-    }
+        => await _visits.FindAsync(id);
 
     public async Task<Visit> Add(Visit visit)
     {
         var newPayment = _visits.Add(visit);
         await _context.SaveChangesAsync();
-        
+
         return newPayment.Entity;
     }
 
@@ -35,9 +33,7 @@ public class VisitRepository : IGenericRepository<Visit>
     }
 
     public async Task<IEnumerable<Visit>> GetAll()
-    {
-        throw new NotImplementedException();
-    }
+        =>  await _visits.ToListAsync();
 
     public async Task<bool> Save()
     {
@@ -50,9 +46,7 @@ public class VisitRepository : IGenericRepository<Visit>
     }
 
     public async Task<IQueryable<Visit>> GetIQueryableByExpression(Expression<Func<Visit, bool>> predicate)
-    {
-        throw new NotImplementedException();
-    }
+        => _visits.Where(predicate);
 
     public async Task<bool> Update(Visit entity)
     {
