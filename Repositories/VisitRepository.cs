@@ -46,7 +46,7 @@ public class VisitRepository : IGenericRepository<Visit>
 
     public async Task<Visit?> SelectFirst(Expression<Func<Visit, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _context.Visits.FirstOrDefaultAsync(predicate);
     }
 
     public async Task<IQueryable<Visit>> GetIQueryableByExpression(Expression<Func<Visit, bool>> predicate)
