@@ -5,12 +5,9 @@ namespace GumAdministration;
 
 public partial class MainWindow : Window
 {
-    private MainWindowViewModel _viewModel;
-    
-    public MainWindow(MainWindowViewModel viewModel)
+    public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
-        _viewModel = viewModel;
-        this.DataContext = _viewModel;
+        this.DataContext = viewModel;
     }
 }

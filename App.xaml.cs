@@ -73,7 +73,7 @@ public partial class App : Application
         // Окна
         collection.AddSingleton<MainWindow>();
         // ViewModel
-        collection.AddSingleton<MainWindowViewModel>();
+        collection.AddSingleton<MainViewModel>();
 
     }
 

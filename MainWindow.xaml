@@ -3,135 +3,198 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:GumAdministration"
+        xmlns:viewModel="clr-namespace:GumAdministration.ViewModel"
+        xmlns:converters="clr-namespace:GumAdministration.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVisibility"/>
+    </Window.Resources>
+    
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
 
-        <!-- Потом тут будет авторизация. Пока бюджета не хватило -->
-
-        <Menu VerticalAlignment="Top"
-              Height="200">
-            <MenuItem Header="Клиент">
-                <MenuItem Header="Добавить"/>
-                <MenuItem Header="Скрыть"/>
-                <MenuItem Header="Добавить оплату"/>
-            </MenuItem>
-        </Menu>
-        
-        <DataGrid AutoGenerateColumns="False" Grid.Row="0" Grid.RowSpan="4"
-                  ItemsSource="{Binding FilteredClients}"
-                  SelectedItem="{Binding Path=SelectedClient}"
-                  Margin="0,20,0,0"
-                  CanUserAddRows="False">
-            <DataGrid.Columns>
-                <!-- Столбец "Имя" с поиском -->
-                <DataGridTemplateColumn Header="Имя">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding FirstName}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Фамилия">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding LastName}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-        
-                <DataGridTemplateColumn Header="Отчество">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Patronymic}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-        
-                <DataGridTemplateColumn Header="Персоналка">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsPersonalTraining}"
-                                      IsEnabled="False"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                
-                
-                <DataGridTemplateColumn Header="Осталось перс. трен.">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=PersonalLessonsLeft}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Посл. опл. дата">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=LastPaidDate, StringFormat=dd.MM.yyyy}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                
-            </DataGrid.Columns>
-        </DataGrid>
-        
-        <Grid Grid.Row="4" ShowGridLines="False">
-        
+        <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource InverseBoolToVisibility}}">
+             
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-        
-            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-                <CheckBox VerticalAlignment="Center" Margin="10,0"
-                          IsChecked="{Binding Path=ShowRequiringPayment}" />
-                <TextBlock Text="Требуют оплаты" VerticalAlignment="Center" Margin="0,10"/>
-            </StackPanel>
-        
-            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                <CheckBox VerticalAlignment="Center" Margin="10,0"
-                          IsChecked="{Binding Path=ShowHidden}" />
-                <TextBlock Text="Показать скрытых" VerticalAlignment="Center" />
-            </StackPanel>
-        
-            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
-                   VerticalAlignment="Center" HorizontalContentAlignment="Center">
-                Фильтр
-            </Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
-                     Margin="10"
-                     Text="{Binding Path=SearchString, UpdateSourceTrigger=PropertyChanged}"/>
-            
-            <TextBlock Grid.Row="0" Grid.Column="3"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Text="{Binding Path=Status}"/>
-            
-            <Button Grid.Row="0" Grid.Column="3"
-                    Margin="5"
-                    Content="Отметить перс. тренировку"
-                    Command="{Binding MarkPersonalTrainingCommand}"
-                    CommandParameter="{Binding SelectedClient}"
-                    />
-            
+
+            <!-- Потом тут будет авторизация. Пока бюджета не хватило -->
+
+            <Menu VerticalAlignment="Top"
+                  Height="200">
+                <MenuItem Header="Клиент">
+                    <MenuItem Header="Добавить" />
+                    <MenuItem Header="Скрыть" />
+                    <MenuItem Header="Добавить оплату" />
+                </MenuItem>
+            </Menu>
+
+            <DataGrid AutoGenerateColumns="False" Grid.Row="0" Grid.RowSpan="4"
+                      ItemsSource="{Binding FilteredClients}"
+                      SelectedItem="{Binding Path=SelectedClient}"
+                      Margin="0,20,0,0"
+                      CanUserAddRows="False">
+
+                <!-- При дабл клике мы будем отображать детальное представление клиента -->
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding ShowDetailsCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <DataGrid.Columns>
+
+                    <!-- Столбец "Имя" с поиском -->
+                    <DataGridTemplateColumn Header="Имя">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FirstName}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Фамилия">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding LastName}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Отчество">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Patronymic}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Персоналка">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsPersonalTraining}"
+                                          IsEnabled="False" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTemplateColumn Header="Осталось перс. трен.">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=PersonalLessonsLeft}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Посл. опл. дата">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=LastPaidDate, StringFormat=dd.MM.yyyy}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid Grid.Row="2" ShowGridLines="False">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                    <CheckBox VerticalAlignment="Center" Margin="10,0"
+                              IsChecked="{Binding Path=ShowRequiringPayment}" />
+                    <TextBlock Text="Требуют оплаты" VerticalAlignment="Center" Margin="0,10" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                    <CheckBox VerticalAlignment="Center" Margin="10,0"
+                              IsChecked="{Binding Path=ShowHidden}" />
+                    <TextBlock Text="Показать скрытых" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                       VerticalAlignment="Center" HorizontalContentAlignment="Center">
+                    Фильтр
+                </Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                         Margin="10"
+                         Text="{Binding Path=SearchString, UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock Grid.Row="0" Grid.Column="3"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Text="{Binding Path=Status}" />
+
+                <Button Grid.Row="0" Grid.Column="3"
+                        Margin="5"
+                        Content="Отметить перс. тренировку"
+                        Command="{Binding MarkPersonalTrainingCommand}"
+                        CommandParameter="{Binding SelectedClient}" />
+
+            </Grid>
+
         </Grid>
-        
+
+        <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource BoolToVisibility}}">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button Content="← Назад к списку"
+                    Command="{Binding CloseDetailsCommand}"
+                    HorizontalAlignment="Left"
+                    Margin="10"
+                    Padding="8,4"
+                    FontSize="14"/>
+
+            <!-- Защита от null: привязка к SelectedClient, но только если он не null -->
+            <Border Grid.Row="1" Margin="20"
+                    Visibility="{Binding SelectedClient, Converter={StaticResource NullToVisibility}}">
+                <StackPanel>
+                    <TextBlock Text="{Binding SelectedClient.LastName, StringFormat='Фамилия: {0}'}" FontSize="18"/>
+                    <TextBlock Text="{Binding SelectedClient.FirstName, StringFormat='Имя: {0}'}" FontSize="18" Margin="0,5"/>
+                    <TextBlock Text="{Binding SelectedClient.Patronymic, StringFormat='Отчество: {0}'}" FontSize="18" Margin="0,5"/>
+                    <TextBlock Text="{Binding SelectedClient.PersonalLessonsLeft, StringFormat='Осталось перс. трен.: {0}'}" FontSize="18" Margin="0,10"/>
+                    <TextBlock Text="{Binding SelectedClient.LastPaidDate, StringFormat='Последняя оплата: {0:dd.MM.yyyy}'}" FontSize="18" Margin="0,5"/>
+                    <CheckBox IsChecked="{Binding SelectedClient.IsPersonalTraining}"
+                              Content="Персональные тренировки"
+                              IsEnabled="False"
+                              Margin="0,10"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Заглушка на случай, если SelectedClient вдруг null (не должно быть) -->
+            <TextBlock Grid.Row="1" 
+                       Text="Клиент не выбран"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Foreground="Gray"
+                       Visibility="{Binding SelectedClient, Converter={StaticResource NullToVisibility}, ConverterParameter=True}"/>
+        </Grid>
+
     </Grid>
+
 </Window>

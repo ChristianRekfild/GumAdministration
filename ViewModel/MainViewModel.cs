@@ -11,7 +11,7 @@ using Upz.Cms.DesktopClient.ViewModel.Base;
 
 namespace GumAdministration.ViewModel;
 
-public class MainWindowViewModel : ViewModelBase
+public class MainViewModel : ViewModelBase
 {
     public ObservableCollection<Client> AllClients { get; set; }
     public ICollectionView FilteredClients { get; set; }
@@ -19,7 +19,7 @@ public class MainWindowViewModel : ViewModelBase
     private readonly ClientService _clientService;
     private readonly VisitService _visitService;
 
-    public MainWindowViewModel(ClientService clientService, VisitService visitService)
+    public MainViewModel(ClientService clientService, VisitService visitService)
     {
         _clientService = clientService;
         _visitService = visitService;
@@ -31,22 +31,35 @@ public class MainWindowViewModel : ViewModelBase
         CloseApplicationCommand = new CloseApplicationCommand();
         MarkPersonalTrainingCommand = new MarkPersonalTrainingCommand(_visitService);
 
+        ShowDetailsCommand = new ShowDetailsCommand(this);
+        CloseDetailsCommand = new CloseDetailsCommand(this);
+
         LoadClientsAsync();
     }
 
 
     #region Свойства
 
+    private bool _isDetailsMode;
+    /// <summary>Нужно ли отображать детальную панель (по конкретному клиенту)</summary>
+    public bool IsDetailsMode
+    {
+        get => _isDetailsMode;
+        set => Set(ref _isDetailsMode, value);
+    }    
+    
     private Client? _selectedClient;
     /// <summary>Выбранный клиент на DataGrid</summary>
     public Client? SelectedClient
     {
         get => _selectedClient;
-        set => Set(ref _selectedClient, value);
+        set 
+        {
+            Set(ref _selectedClient, value);
+        }
     }
 
     private string _searchString;
-
     /// <summary>Поиск по имени</summary>
     public string SearchString
     {
@@ -100,6 +113,8 @@ public class MainWindowViewModel : ViewModelBase
 
     public ICommand CloseApplicationCommand { get; }
     public ICommand MarkPersonalTrainingCommand { get; }
+    public ICommand ShowDetailsCommand { get; }
+    public ICommand CloseDetailsCommand { get; }
 
     #endregion Команды
 
