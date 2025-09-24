@@ -49,7 +49,17 @@ public class PaymentRepository : IGenericRepository<Payment>
 
     public async Task<bool> Update(Payment entity)
     {
-        throw new NotImplementedException();
+        var existed = _payments.Find(entity.Id);
+        if (existed is null) return false;
+        
+        existed.ClientId = entity.ClientId;
+        existed.AddedPersonalLessons = entity.AddedPersonalLessons;
+        
+        return await _context.SaveChangesAsync() > 0;
+        
+        // Оставлю для интереса. Так мы говорим, что обновили объект.
+        // И EF сгенерит запрос для обновления. ВСЕХ ПОЛЕЙ. Интересновое.
+        // _context.Entry(existedPayment).State = EntityState.Modified;
     }
 
     public async Task<Payment> GetWithInclude(Guid id)
