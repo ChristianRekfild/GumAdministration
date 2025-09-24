@@ -38,11 +38,6 @@ public sealed class ClientRepository : IGenericRepository<Client>
 
     public async Task<IEnumerable<Client>> GetAll()
         => await _clients.ToListAsync();
-    
-    public async Task<bool> Save()
-    {
-        throw new NotImplementedException();
-    }
 
     public async Task<Client?> SelectFirst(Expression<Func<Client, bool>> predicate)
     {

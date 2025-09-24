@@ -31,12 +31,6 @@ public interface IGenericRepository<T> where T : class
     /// </summary>
     /// <returns>IEnumerable<T> выбраного типа сущностей</returns>
     Task<IEnumerable<T>> GetAll();
-
-    /// <summary>
-    /// Сохранить изменения в сущности в БД
-    /// </summary>
-    /// <returns>true, если успешно. Иначе - false</returns>
-    Task<bool> Save();
     
     /// <summary>
     /// Получить первую сущность, которая подходит по условиям предиката

@@ -39,11 +39,6 @@ public class PaymentRepository : IGenericRepository<Payment>
     public async Task<IEnumerable<Payment>> GetAll()
         => await _context.Payments.ToListAsync();
 
-    public async Task<bool> Save()
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<Payment?> SelectFirst(Expression<Func<Payment, bool>> predicate)
     {
         return await _context.Payments.FirstOrDefaultAsync(predicate);
