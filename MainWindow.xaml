@@ -7,19 +7,23 @@
         xmlns:local="clr-namespace:GumAdministration"
         xmlns:viewModel="clr-namespace:GumAdministration.ViewModel"
         xmlns:converters="clr-namespace:GumAdministration.Converters"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
-        <converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
-        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVisibility"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <converters:NullToVisibilityConverter x:Key="NullToVisibility" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVisibility" />
     </Window.Resources>
-    
+
     <Grid>
 
-        <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource InverseBoolToVisibility}}">
-             
+        <!-- Списочное представление -->
+        <!-- Для разработки -->
+        <!-- <Grid Visibility="Hidden"> -->
+            <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource InverseBoolToVisibility}}">
+
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -155,44 +159,143 @@
 
         </Grid>
 
-        <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource BoolToVisibility}}">
-            
+        <!-- Детальное представление -->
+        <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource BoolToVisibility}}"
+              ShowGridLines="True">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
             <Button Content="← Назад к списку"
                     Command="{Binding CloseDetailsCommand}"
-                    HorizontalAlignment="Left"
-                    Margin="10"
+                    HorizontalAlignment="Center"
+                    Margin="5"
                     Padding="8,4"
-                    FontSize="14"/>
+                    FontSize="14" />
 
+            <!-- Данные клиента -->
+            <Label Grid.Row="2" Grid.Column="0"
+                   HorizontalContentAlignment="Right"
+                   VerticalContentAlignment="Center"
+                   FontSize="16">
+                Фамилия
+            </Label>
+
+            <TextBox Grid.Row="2" Grid.Column="1"
+                     Text="{Binding SelectedClient.LastName}"
+                     Margin="7"
+                     />
+            
+            <Label Grid.Row="3" Grid.Column="0"
+                   HorizontalContentAlignment="Right"
+                   VerticalContentAlignment="Center"
+                   FontSize="16">
+                Имя
+            </Label>
+            
+            <TextBox Grid.Row="3" Grid.Column="1"
+                     Text="{Binding SelectedClient.FirstName}"
+                     Margin="7"
+                     />
+
+            <Label Grid.Row="4" Grid.Column="0"
+                   HorizontalContentAlignment="Right"
+                   VerticalContentAlignment="Center"
+                   FontSize="16">
+                Отчество
+            </Label>
+            
+            <TextBox Grid.Row="4" Grid.Column="1"
+                     Text="{Binding SelectedClient.Patronymic}"
+                     Margin="7"
+                     />
+
+            <Label Grid.Row="5" Grid.Column="0"
+                   HorizontalContentAlignment="Right"
+                   VerticalContentAlignment="Center"
+                   FontSize="16">
+                Номер телефона
+            </Label>
+            
+            <TextBox Grid.Row="5" Grid.Column="1"
+                     Text="{Binding SelectedClient.PhoneNumber}"
+                     Margin="7"
+                     />
+            
+            <Label Grid.Row="1" Grid.Column="2"
+                   HorizontalContentAlignment="Right"
+                   VerticalContentAlignment="Center"
+                   FontSize="16">
+                Id
+            </Label>
+            
+            <TextBox Grid.Row="1" Grid.Column="3"
+                     IsEnabled="False"
+                     Text="{Binding SelectedClient.Id}"
+                     Margin="7"
+            />
+            
+            <Label Grid.Row="2" Grid.Column="2"
+                   HorizontalContentAlignment="Right"
+                   VerticalContentAlignment="Center"
+                   FontSize="16">
+                Дата рождения
+            </Label>
+            
+            <DatePicker Grid.Row="2" Grid.Column="3"
+                        Margin="7"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        SelectedDate="{Binding SelectedClient.BirthDate, TargetNullValue={x:Static system:DateTime.MinValue}, 
+                        StringFormat='dd.MM.yyyy'}"
+                        DisplayDateEnd="{x:Static system:DateTime.Today}"
+                        FirstDayOfWeek="Monday"
+                        
+                        />
+            
             <!-- Защита от null: привязка к SelectedClient, но только если он не null -->
-            <Border Grid.Row="1" Margin="20"
-                    Visibility="{Binding SelectedClient, Converter={StaticResource NullToVisibility}}">
-                <StackPanel>
-                    <TextBlock Text="{Binding SelectedClient.LastName, StringFormat='Фамилия: {0}'}" FontSize="18"/>
-                    <TextBlock Text="{Binding SelectedClient.FirstName, StringFormat='Имя: {0}'}" FontSize="18" Margin="0,5"/>
-                    <TextBlock Text="{Binding SelectedClient.Patronymic, StringFormat='Отчество: {0}'}" FontSize="18" Margin="0,5"/>
-                    <TextBlock Text="{Binding SelectedClient.PersonalLessonsLeft, StringFormat='Осталось перс. трен.: {0}'}" FontSize="18" Margin="0,10"/>
-                    <TextBlock Text="{Binding SelectedClient.LastPaidDate, StringFormat='Последняя оплата: {0:dd.MM.yyyy}'}" FontSize="18" Margin="0,5"/>
-                    <CheckBox IsChecked="{Binding SelectedClient.IsPersonalTraining}"
-                              Content="Персональные тренировки"
-                              IsEnabled="False"
-                              Margin="0,10"/>
-                </StackPanel>
-            </Border>
+            <!-- <Border Grid.Row="1" Margin="20" -->
+            <!--         Visibility="{Binding SelectedClient, Converter={StaticResource NullToVisibility}}"> -->
+            <!--     <StackPanel> -->
+            <!--          -->
+            <!--          -->
+            <!--         <TextBlock Text="{Binding SelectedClient.LastName, StringFormat='Фамилия: {0}'}" FontSize="18"/> -->
+            <!--         <TextBlock Text="{Binding SelectedClient.FirstName, StringFormat='Имя: {0}'}" FontSize="18" Margin="0,5"/> -->
+            <!--         <TextBlock Text="{Binding SelectedClient.Patronymic, StringFormat='Отчество: {0}'}" FontSize="18" Margin="0,5"/> -->
+            <!--         <TextBlock Text="{Binding SelectedClient.PersonalLessonsLeft, StringFormat='Осталось перс. трен.: {0}'}" FontSize="18" Margin="0,10"/> -->
+            <!--         <TextBlock Text="{Binding SelectedClient.LastPaidDate, StringFormat='Последняя оплата: {0:dd.MM.yyyy}'}" FontSize="18" Margin="0,5"/> -->
+            <!--         <CheckBox IsChecked="{Binding SelectedClient.IsPersonalTraining}" -->
+            <!--                   Content="Персональные тренировки" -->
+            <!--                   IsEnabled="False" -->
+            <!--                   Margin="0,10"/> -->
+            <!--     </StackPanel> -->
+            <!-- </Border> -->
 
             <!-- Заглушка на случай, если SelectedClient вдруг null (не должно быть) -->
-            <TextBlock Grid.Row="1" 
+            <TextBlock Grid.Row="1"
                        Text="Клиент не выбран"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontSize="20"
                        Foreground="Gray"
-                       Visibility="{Binding SelectedClient, Converter={StaticResource NullToVisibility}, ConverterParameter=True}"/>
+                       Visibility="{Binding SelectedClient, Converter={StaticResource NullToVisibility}, ConverterParameter=True}" />
         </Grid>
 
     </Grid>
