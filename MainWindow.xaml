@@ -17,6 +17,10 @@
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVisibility" />
     </Window.Resources>
 
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding CloseDetailsCommand}" />
+    </Window.InputBindings>
+    
     <Grid>
 
         <!-- Списочное представление -->
