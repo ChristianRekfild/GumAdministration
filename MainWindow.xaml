@@ -270,6 +270,19 @@
                         
                         />
             
+            <Label Grid.Row="3" Grid.Column="2"
+                   HorizontalContentAlignment="Right"
+                   VerticalContentAlignment="Center"
+                   FontSize="13">
+                Персональные тренировки
+            </Label>
+            
+            <CheckBox Grid.Row="3" Grid.Column="3"
+                      IsChecked="{Binding SelectedClient.IsPersonalTraining}"
+                      VerticalContentAlignment="Center"
+                      Margin="10"
+            />
+            
             <!-- Защита от null: привязка к SelectedClient, но только если он не null -->
             <!-- <Border Grid.Row="1" Margin="20" -->
             <!--         Visibility="{Binding SelectedClient, Converter={StaticResource NullToVisibility}}"> -->
