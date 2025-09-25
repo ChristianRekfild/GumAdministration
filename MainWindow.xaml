@@ -242,6 +242,18 @@
                      Text="{Binding SelectedClient.PhoneNumber}"
                      Margin="7"
                      />
+            <Button Grid.Row="6" Grid.Column="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    FontSize="16"
+                    Content="Сохранить"
+                    />
+            
+            
+            
+            
             
             <Label Grid.Row="1" Grid.Column="2"
                    HorizontalContentAlignment="Right"

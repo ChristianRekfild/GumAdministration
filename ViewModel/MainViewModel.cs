@@ -16,23 +16,24 @@ public class MainViewModel : ViewModelBase
     public ObservableCollection<Client> AllClients { get; set; }
     public ICollectionView FilteredClients { get; set; }
 
-    private readonly ClientService _clientService;
-    private readonly VisitService _visitService;
+    public readonly ClientService clientService;
+    public readonly VisitService visitService;
 
     public MainViewModel(ClientService clientService, VisitService visitService)
     {
-        _clientService = clientService;
-        _visitService = visitService;
+        this.clientService = clientService;
+        this.visitService = visitService;
 
         AllClients = new ObservableCollection<Client>();
         FilteredClients = CollectionViewSource.GetDefaultView(AllClients);
         FilteredClients.Filter = FilterClients;
 
         CloseApplicationCommand = new CloseApplicationCommand();
-        MarkPersonalTrainingCommand = new MarkPersonalTrainingCommand(_visitService);
+        MarkPersonalTrainingCommand = new MarkPersonalTrainingCommand(this.visitService);
 
         ShowDetailsCommand = new ShowDetailsCommand(this);
         CloseDetailsCommand = new CloseDetailsCommand(this);
+        SaveClientCommand = new SaveClientCommand(this);
 
         LoadClientsAsync();
     }
@@ -115,6 +116,7 @@ public class MainViewModel : ViewModelBase
     public ICommand MarkPersonalTrainingCommand { get; }
     public ICommand ShowDetailsCommand { get; }
     public ICommand CloseDetailsCommand { get; }
+    public ICommand SaveClientCommand { get; }
 
     #endregion Команды
 
@@ -148,7 +150,7 @@ public class MainViewModel : ViewModelBase
     {
         try
         {
-            var clients = await _clientService.GetAll();
+            var clients = await clientService.GetAll();
             foreach (var c in clients)
                 AllClients.Add(c);
 
