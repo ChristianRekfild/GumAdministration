@@ -34,5 +34,11 @@ internal class SaveClientCommand : CommandBase
         
         var addedClient =  await _viewModel.clientService.Add(_viewModel.SelectedClient);
         _viewModel.SelectedClient = addedClient;
+
+        // Перезагружаем список клиентов, чтобы туда попал новый
+        await _viewModel.LoadClientsAsync();
+        
+        // И возвращаемся в списочное представление
+        _viewModel.IsDetailsMode = false;
     }
 }

@@ -152,7 +152,7 @@ public class MainViewModel : ViewModelBase
         this.ApplyFilter();
     }
 
-    private async Task LoadClientsAsync()
+    public async Task LoadClientsAsync()
     {
         try
         {
