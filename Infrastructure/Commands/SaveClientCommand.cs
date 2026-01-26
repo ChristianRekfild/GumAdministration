@@ -15,7 +15,7 @@ internal class SaveClientCommand : CommandBase
     }
 
     public override bool CanExecute(object? parameter)
-        => _viewModel.IsDetailsMode && _viewModel.SelectedClient is not null;
+        => _viewModel is { IsDetailsMode: true, SelectedClient: not null };
 
     public async override void Execute(object? parameter)
     {
@@ -41,4 +41,5 @@ internal class SaveClientCommand : CommandBase
         // И возвращаемся в списочное представление
         _viewModel.IsDetailsMode = false;
     }
+    
 }

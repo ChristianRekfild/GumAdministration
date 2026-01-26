@@ -109,7 +109,7 @@ public class MainViewModel : ViewModelBase
         set
         {
             Set(ref _status, value);
-            ApplyFilter();
+            // ApplyFilter();
         }
     }
 
@@ -156,6 +156,8 @@ public class MainViewModel : ViewModelBase
     {
         try
         {
+            AllClients.Clear();
+            
             var clients = await clientService.GetAll();
             foreach (var c in clients)
                 AllClients.Add(c);
