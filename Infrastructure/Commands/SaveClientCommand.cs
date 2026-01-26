@@ -27,6 +27,11 @@ internal class SaveClientCommand : CommandBase
         if (client is not null)
         {
             await _viewModel.clientService.Update(_viewModel.SelectedClient);
+            // Перезагружаем список клиентов, чтобы туда попал новый
+            await _viewModel.LoadClientsAsync();
+        
+            // И возвращаемся в списочное представление
+            _viewModel.IsDetailsMode = false;
             return;
         }
         
