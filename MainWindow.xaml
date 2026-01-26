@@ -170,10 +170,16 @@
 
         </Grid>
 
+        
+        
+        
+        
+        
         <!-- Детальное представление -->
         <!-- Используется при разработке -->
         <!-- <Grid Visibility="Hidden" ShowGridLines="True"> -->
-        <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource BoolToVisibility}}" ShowGridLines="True">
+        <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource BoolToVisibility}}" ShowGridLines="False">
+        <!-- <Grid Visibility="Hidden" ShowGridLines="False"> -->
 
             <Grid.RowDefinitions>
                 <RowDefinition />

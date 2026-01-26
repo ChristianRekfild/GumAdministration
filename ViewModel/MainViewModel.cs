@@ -26,6 +26,8 @@ public class MainViewModel : ViewModelBase
         this.clientService = clientService;
         this.visitService = visitService;
 
+        // LoadClientsAsync().GetAwaiter().GetResult();
+        
         AllClients = new ObservableCollection<ClientDto>();
         FilteredClients = CollectionViewSource.GetDefaultView(AllClients);
         FilteredClients.Filter = FilterClients;
@@ -63,9 +65,9 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    private string? _searchString;
+    private string _searchString;
     /// <summary>Поиск по имени</summary>
-    public string? SearchString
+    public string SearchString
     {
         get => _searchString;
         set
@@ -126,7 +128,7 @@ public class MainViewModel : ViewModelBase
 
     private bool FilterClients(object item)
     {
-        if (item is not Client client)
+        if (item is not ClientDto client)
             return false;
 
         bool matchesSearch = string.IsNullOrWhiteSpace(SearchString) ||
@@ -150,7 +152,7 @@ public class MainViewModel : ViewModelBase
         this.ApplyFilter();
     }
 
-    private async void LoadClientsAsync()
+    private async Task LoadClientsAsync()
     {
         try
         {
@@ -158,11 +160,12 @@ public class MainViewModel : ViewModelBase
             foreach (var c in clients)
                 AllClients.Add(c);
 
-            // FilteredClients.Refresh();
+            FilteredClients.Refresh();
             this.Status = "Ок";
         }
         catch (Exception ex)
         {
+            this.Status = $"Error: {ex.Message}";
             MessageBox.Show("Error: " + ex.Message);
         }
     }
