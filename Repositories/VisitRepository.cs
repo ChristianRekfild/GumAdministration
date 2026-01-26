@@ -17,7 +17,7 @@ public class VisitRepository : IGenericRepository<Visit>
         _visits = context.Set<Visit>();
     }
 
-    public async Task<Visit?> Get(Guid id)
+    public async Task<Visit?> Get(long id)
         => await _visits.FindAsync(id);
 
     public async Task<Visit> Add(Visit visit)
@@ -28,7 +28,7 @@ public class VisitRepository : IGenericRepository<Visit>
         return newPayment.Entity;
     }
 
-    public async Task<bool> Delete(Guid id)
+    public async Task<bool> Delete(long id)
     {
         Visit?  visit = await this.Get(id);
         if (visit is null) return false;

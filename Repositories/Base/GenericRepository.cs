@@ -22,7 +22,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T:class
     /// </summary>
     /// <param name="id">Guid Id сущности</param>
     /// <returns></returns>
-    public virtual async Task<T?> Get(Guid id)
+    public virtual async Task<T?> Get(long id)
         => await _context.FindAsync<T>(id);
 
     /// <summary>
@@ -43,7 +43,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T:class
     /// </summary>
     /// <param name="id">Сущность для удаления</param>
     /// <returns>true, если успешно. Иначе - false</returns>
-    public async Task<bool> Delete(Guid id)
+    public async Task<bool> Delete(long id)
     {
         var entity = await _context.FindAsync<T>(id);
         if (entity is null) return false;

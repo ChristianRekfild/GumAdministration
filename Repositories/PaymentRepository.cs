@@ -16,7 +16,7 @@ public class PaymentRepository : IGenericRepository<Payment>
         _payments = context.Set<Payment>();
     }
     
-    public async Task<Payment?> Get(Guid id)
+    public async Task<Payment?> Get(long id)
         => await _payments.FindAsync(id);
 
     public async Task<Payment> Add(Payment payment)
@@ -27,7 +27,7 @@ public class PaymentRepository : IGenericRepository<Payment>
         return newPayment.Entity;
     }
 
-    public async Task<bool> Delete(Guid id)
+    public async Task<bool> Delete(long id)
     {
         var payment = await this.Get(id);
         if (payment is null) return false;

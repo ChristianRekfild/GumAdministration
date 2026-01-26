@@ -17,13 +17,13 @@ public class VisitService
     // Ничего не реализовано, кроме Add
     // !ВНИМАНИЕ! //
     
-    public async Task<Visit?> Get(Guid id)
+    public async Task<Visit?> Get(long id)
         => await _visitRepository.Get(id);
 
     public async Task<Visit> Add(Visit entity)
         => await _visitRepository.Add(entity);
 
-    public async Task<bool> Delete(Guid id)
+    public async Task<bool> Delete(long id)
         =>  await _visitRepository.Delete(id);
 
     public async Task<IEnumerable<Visit>> GetAll()

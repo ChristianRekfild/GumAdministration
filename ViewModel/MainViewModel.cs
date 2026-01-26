@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using GumAdministration.Dto;
+using GumAdministration.Extensions;
 using GumAdministration.Infrastructure.Commands;
 using GumAdministration.Model;
 using GumAdministration.Services;
@@ -13,7 +15,7 @@ namespace GumAdministration.ViewModel;
 
 public class MainViewModel : ViewModelBase
 {
-    public ObservableCollection<Client> AllClients { get; set; }
+    public ObservableCollection<ClientDto> AllClients { get; set; }
     public ICollectionView FilteredClients { get; set; }
 
     public readonly ClientService clientService;
@@ -24,7 +26,7 @@ public class MainViewModel : ViewModelBase
         this.clientService = clientService;
         this.visitService = visitService;
 
-        AllClients = new ObservableCollection<Client>();
+        AllClients = new ObservableCollection<ClientDto>();
         FilteredClients = CollectionViewSource.GetDefaultView(AllClients);
         FilteredClients.Filter = FilterClients;
 
@@ -34,6 +36,7 @@ public class MainViewModel : ViewModelBase
         ShowDetailsCommand = new ShowDetailsCommand(this);
         CloseDetailsCommand = new CloseDetailsCommand(this);
         SaveClientCommand = new SaveClientCommand(this);
+        PrepareToAddNewClientCommand = new PrepareToAddNewClientCommand(this);
 
         LoadClientsAsync();
     }
@@ -49,9 +52,9 @@ public class MainViewModel : ViewModelBase
         set => Set(ref _isDetailsMode, value);
     }    
     
-    private Client? _selectedClient;
+    private ClientDto? _selectedClient;
     /// <summary>Выбранный клиент на DataGrid</summary>
-    public Client? SelectedClient
+    public ClientDto? SelectedClient
     {
         get => _selectedClient;
         set 
@@ -60,9 +63,9 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    private string _searchString;
+    private string? _searchString;
     /// <summary>Поиск по имени</summary>
-    public string SearchString
+    public string? SearchString
     {
         get => _searchString;
         set
@@ -117,6 +120,7 @@ public class MainViewModel : ViewModelBase
     public ICommand ShowDetailsCommand { get; }
     public ICommand CloseDetailsCommand { get; }
     public ICommand SaveClientCommand { get; }
+    public ICommand PrepareToAddNewClientCommand { get; }
 
     #endregion Команды
 

@@ -16,7 +16,7 @@ public sealed class ClientRepository : IGenericRepository<Client>
         _clients = context.Set<Client>();
     }
     
-    public async Task<Client?> Get(Guid id)
+    public async Task<Client?> Get(long id)
         => await _clients.FindAsync(id);
 
     public async Task<Client> Add(Client entity)
@@ -27,7 +27,7 @@ public sealed class ClientRepository : IGenericRepository<Client>
         return addedClient.Entity;
     }
 
-    public async Task<bool> Delete(Guid id)
+    public async Task<bool> Delete(long id)
     {
         var client = await _clients.FindAsync(id);
         if (client is null) return false;
@@ -37,7 +37,7 @@ public sealed class ClientRepository : IGenericRepository<Client>
     }
 
     public async Task<IEnumerable<Client>> GetAll()
-        => await _clients.ToListAsync();
+        => await _context.Clients.ToListAsync();
 
     public async Task<Client?> SelectFirst(Expression<Func<Client, bool>> predicate)
     {

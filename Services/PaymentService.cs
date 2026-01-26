@@ -17,13 +17,13 @@ public class PaymentService
     // Ничего не реализовано, кроме Add
     // !ВНИМАНИЕ! //
     
-    public async Task<Payment?> Get(Guid id)
+    public async Task<Payment?> Get(long id)
         => await _paymentRepository.Get(id);
 
     public async Task<Payment> Add(Payment entity)
         => await _paymentRepository.Add(entity);
 
-    public async Task<bool> Delete(Guid id)
+    public async Task<bool> Delete(long id)
         =>  await _paymentRepository.Delete(id);
 
     public async Task<IEnumerable<Payment>> GetAll()

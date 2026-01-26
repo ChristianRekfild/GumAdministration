@@ -1,28 +1,28 @@
 ﻿using System.Windows;
+using GumAdministration.Dto;
 using GumAdministration.Infrastructure.Commands.Base;
+using GumAdministration.Model;
 using GumAdministration.ViewModel;
 
 namespace GumAdministration.Infrastructure.Commands;
 
 /// <summary>Команда для закрытия детального представления клиента</summary>
-internal class CloseDetailsCommand : CommandBase
+internal class PrepareToAddNewClientCommand : CommandBase
 {
     private readonly MainViewModel _viewModel;
     
-    internal CloseDetailsCommand(MainViewModel viewModel)
+    internal PrepareToAddNewClientCommand(MainViewModel viewModel)
     {
         _viewModel = viewModel;
     }
 
     public override bool CanExecute(object? parameter)
-        => _viewModel.IsDetailsMode;
+        => !_viewModel.IsDetailsMode;
 
     public override void Execute(object? parameter)
     {
-        _viewModel.IsDetailsMode = false;
-        
-        // Значит, пользователь пытался добавить нового клиента, но не сохранил. Забываем о нём
-        if (_viewModel.SelectedClient?.Id == default)
-            _viewModel.SelectedClient = null;
+        _viewModel.SelectedClient = new ClientDto() { BirthDate = DateTime.Today, CreatedAt = DateTime.Now };
+        // _viewModel.SelectedClient.BirthDate = DateTime.Now;
+        _viewModel.IsDetailsMode = true;
     }
 }

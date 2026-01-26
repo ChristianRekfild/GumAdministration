@@ -9,7 +9,7 @@ public interface IGenericRepository<T> where T : class
     /// </summary>
     /// <param name="id">Guid Id сущности</param>
     /// <returns></returns>
-    public Task<T?> Get(Guid id);
+    public Task<T?> Get(long id);
 
     /// <summary>
     /// Добавление сущности в БД (асинхронное)
@@ -23,7 +23,7 @@ public interface IGenericRepository<T> where T : class
     /// </summary>
     /// <param name="id">Сущность для удаления</param>
     /// <returns>true, если успешно. Иначе - false</returns>
-    public Task<bool> Delete(Guid id);
+    public Task<bool> Delete(long id);
 
     /// <summary>
     /// Получить все сущности из базы данных. Внимание - они будут получены с модификатором AsNoTracking!

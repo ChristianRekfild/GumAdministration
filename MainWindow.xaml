@@ -116,9 +116,10 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <Grid Grid.Row="2" ShowGridLines="False">
+            <Grid Grid.Row="2" Grid.RowSpan="2" ShowGridLines="False">
 
                 <Grid.RowDefinitions>
+                    <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
@@ -159,13 +160,20 @@
                         Command="{Binding MarkPersonalTrainingCommand}"
                         CommandParameter="{Binding SelectedClient}" />
 
+                <Button Grid.Row="2" Grid.Column="0"
+                        Margin="5"
+                        Content="Добавить клиента"
+                        Command="{Binding PrepareToAddNewClientCommand}"
+                        CommandParameter="{Binding SelectedClient}" />
+                
             </Grid>
 
         </Grid>
 
         <!-- Детальное представление -->
-        <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource BoolToVisibility}}"
-              ShowGridLines="True">
+        <!-- Используется при разработке -->
+        <!-- <Grid Visibility="Hidden" ShowGridLines="True"> -->
+        <Grid Visibility="{Binding IsDetailsMode, Converter={StaticResource BoolToVisibility}}" ShowGridLines="True">
 
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -242,6 +250,7 @@
                      Text="{Binding SelectedClient.PhoneNumber}"
                      Margin="7"
                      />
+            
             <Button Grid.Row="6" Grid.Column="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
@@ -249,6 +258,7 @@
                     HorizontalContentAlignment="Center"
                     FontSize="16"
                     Content="Сохранить"
+                    Command="{Binding SaveClientCommand}"
                     />
             
             
