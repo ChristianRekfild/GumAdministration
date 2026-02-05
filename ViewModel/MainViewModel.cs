@@ -33,7 +33,7 @@ public class MainViewModel : ViewModelBase
         FilteredClients.Filter = FilterClients;
 
         CloseApplicationCommand = new CloseApplicationCommand();
-        MarkPersonalTrainingCommand = new MarkPersonalTrainingCommand(this.visitService);
+        MarkPersonalTrainingCommand = new MarkPersonalTrainingCommand(this);
 
         ShowDetailsCommand = new ShowDetailsCommand(this);
         CloseDetailsCommand = new CloseDetailsCommand(this);

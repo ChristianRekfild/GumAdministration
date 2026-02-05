@@ -1,22 +1,17 @@
-﻿using GumAdministration.Infrastructure.Commands.Base;
+﻿using GumAdministration.Dto;
+using GumAdministration.Infrastructure.Commands.Base;
 using GumAdministration.Model;
 using GumAdministration.Services;
+using GumAdministration.ViewModel;
 
 namespace GumAdministration.Infrastructure.Commands;
 
 /// <summary>Команда для закрытия приложения</summary>
-internal class MarkPersonalTrainingCommand : CommandBase
+internal class MarkPersonalTrainingCommand(MainViewModel vm) : CommandBase
 {
-    private readonly VisitService _visitService;
-
-    internal MarkPersonalTrainingCommand(VisitService visitService)
-    {
-        _visitService = visitService;
-    }
-
     public override bool CanExecute(object? parameter)
     {
-        if (parameter is not Client client)
+        if (parameter is not ClientDto client)
             return false;
         
         if (client.IsPersonalTraining)
@@ -27,33 +22,23 @@ internal class MarkPersonalTrainingCommand : CommandBase
 
     public async override void Execute(object? parameter)
     {
-        if (parameter is Client client)
+        if (parameter is ClientDto client)
         {
-            Visit visit = new Visit()
-            {
-                Client = client,
-                Start = DateTime.UtcNow
-            };
+            var now = DateTime.Now;
+            var beginningOfTheСurrentВay = new DateTime(now.Year, now.Month, now.Day);
+            
+            var existedVisit = await vm.visitService.SelectFirst(x => x.Client.Id == client.Id 
+                                                                && x.Start >= beginningOfTheСurrentВay);
 
-            DateTime startDay = DateTime.Today.ToUniversalTime();
-            DateTime endDay = startDay.AddDays(1).AddSeconds(-1).ToUniversalTime();
-
-            Visit? existedVisit = await _visitService.SelectFirst(x =>
-                    x.Start > startDay && x.Start < endDay
-                                       && x.Client == client);
-
+            // Если сегодня отмечена перс. тренировка - то нельзя поставить ещё одну отметку. Фигня какая-то получится.
             if (existedVisit is not null)
             {
-                string error = $"""
-                                Невозможно добавить визит, т.к. данный клиент
-                                ({client.FirstName} {client.LastName} {client.Patronymic})
-                                уже приходил сегодня.
-                                """;
-                System.Windows.MessageBox.Show(error, "ошибка",  System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(
+                    "Невозможно отметить персональную тренировку\n(так как пользователь уже отмечен сегодня)");
                 return;
             }
-
-            await _visitService.Add(visit);
+            
+            await vm.visitService.Add(client.Id, DateTime.UtcNow);
         }
     }
 }

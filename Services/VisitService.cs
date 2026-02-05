@@ -4,37 +4,34 @@ using GumAdministration.Repositories;
 
 namespace GumAdministration.Services;
 
-public class VisitService
+public class VisitService(VisitRepository visitRepository, ClientRepository clientRepository)
 {
-    private readonly VisitRepository _visitRepository;
-    
-    public VisitService(VisitRepository visitRepository)
-    {
-        _visitRepository = visitRepository;
-    }
-    
-    // !ВНИМАНИЕ!
-    // Ничего не реализовано, кроме Add
-    // !ВНИМАНИЕ! //
-    
     public async Task<Visit?> Get(long id)
-        => await _visitRepository.Get(id);
+        => await visitRepository.Get(id);
 
-    public async Task<Visit> Add(Visit entity)
-        => await _visitRepository.Add(entity);
+    public async Task<Visit?> Add(long clientId, DateTime start)
+    {
+        Client? client = await clientRepository.Get(clientId);
+        if (client is null)
+            return null;
+
+        Visit visit = new Visit() { Client = client, Start = start };
+        
+        return await visitRepository.Add(visit);
+    }
 
     public async Task<bool> Delete(long id)
-        =>  await _visitRepository.Delete(id);
+        =>  await visitRepository.Delete(id);
 
     public async Task<IEnumerable<Visit>> GetAll()
-        => await _visitRepository.GetAll();
+        => await visitRepository.GetAll();
 
     public async Task<Visit?> SelectFirst(Expression<Func<Visit, bool>> predicate)
-        => await _visitRepository.SelectFirst(predicate);
+        => await visitRepository.SelectFirst(predicate);
 
     public async Task<IQueryable<Visit>> GetIQueryableByExpression(Expression<Func<Visit, bool>> predicate)
-        => await _visitRepository.GetIQueryableByExpression(predicate);
+        => await visitRepository.GetIQueryableByExpression(predicate);
 
     public async Task<bool> Update(Visit entity)
-        => await _visitRepository.Update(entity);
+        => await visitRepository.Update(entity);
 }
